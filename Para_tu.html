@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para tú♡</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #87CEEB; /* Cambié el fondo a un tono celeste */
+        }
+        canvas {
+            display: block;
+        }
+        button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="flowerCanvas"></canvas>
+<button onclick="goToIndex()">❤</button>
+
+<script>
+    function goToIndex() {
+        window.location.href = "index.html";
+    }
+
+    const canvas = document.getElementById('flowerCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Dibujar pasto
+    function drawGrass() {
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height);
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.lineTo(canvas.width, canvas.height - 100); // Altura del pasto
+        ctx.lineTo(0, canvas.height - 100);
+        ctx.closePath();
+        ctx.fillStyle = '#00aa00'; /* Color verde para el pasto */
+        ctx.fill();
+    }
+
+    // Dibujar sol
+    function drawSun() {
+        ctx.beginPath();
+        ctx.arc(canvas.width - 50, 50, 40, 0, 2 * Math.PI);
+        ctx.fillStyle = 'yellow';
+        ctx.fill();
+        ctx.stroke();
+    }
+    
+    // Dibujar nube blanca
+    function drawCloud() {
+        ctx.beginPath();
+        ctx.arc(190, 80, 20, 0, 2 * Math.PI); // Primer círculo
+        ctx.arc(230, 80, 30, 0, 2 * Math.PI); // Segundo círculo
+        ctx.arc(270, 80, 25, 0, 2 * Math.PI); // Tercer círculo
+        ctx.arc(220, 70, 20, 0, 2 * Math.PI); // Cuarto círculo
+        ctx.arc(200, 70, 30, 0, 2 * Math.PI); // Quinto círculo
+        ctx.arc(300, 70, 30, 0, 2 * Math.PI);
+        ctx.arc(210, 100, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+    }
+
+    // Dibujar el tallo
+    function drawStem() {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(centerX, centerY + 200);
+        ctx.strokeStyle = 'green';
+        ctx.stroke();
+    }
+
+    // Dibujar la flor
+    function drawFlower() {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        // Dibujar pasto y sol
+        drawGrass();
+        drawSun();
+        drawCloud(); // Dibujar la nube antes de la flor
+
+        // Dibujar el tallo una vez
+        drawStem();
+
+        // Dibujar los pétalos
+        const petalCount = 18;
+        let petalLength = 0;
+
+        const intervalId = setInterval(function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGrass();
+            drawSun();
+            drawCloud();
+            drawStem();
+
+            for (let i = 0; i < petalCount; i++) {
+                const angle = (i / petalCount) * 2 * Math.PI;
+                const x = centerX + petalLength * Math.cos(angle);
+                const y = centerY + petalLength * Math.sin(angle);
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.quadraticCurveTo(centerX + 20, centerY - 60, x, y);
+                ctx.quadraticCurveTo(centerX - 20, centerY - 60, centerX, centerY);
+                ctx.fillStyle = 'pink';
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            petalLength += 1;
+
+            if (petalLength > 90) {
+                clearInterval(intervalId);
+                ctx.beginPath();
+                ctx.moveTo(centerX + 0, centerY + 90);
+                ctx.quadraticCurveTo(centerX - 37, centerY + 130, centerX - 37, centerY + 70);
+                ctx.quadraticCurveTo(centerX -10, centerY + 60, centerX -7, centerY + 100);
+                ctx.fillStyle = 'green';
+                ctx.fill();
+                ctx.stroke();
+            }
+        }, 10);
+    }
+//Esta echo y creado con mucho cariño pd:por si en algun momento lo llegas a checar como esta el codigo y te das cuenta que te quiero mucho ❤
+    drawFlower();
+</script>
+
+</body>
+</html>
